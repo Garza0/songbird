@@ -1,0 +1,23 @@
+.bird-image {
+	width: 200px;
+height: 155px;
+border-radius: 10px;
+}
+
+.random-bird {
+	display: flex;
+	flex-wrap: wrap;
+}
+
+.random-bird-info {
+	margin-left: 40px;
+	width: calc(100% - 250px);
+}
+
+.audio-player {
+	width: 100%;
+}
+
+.jumbotron {
+	padding: 2rem 2rem;
+}

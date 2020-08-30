@@ -1,0 +1,25 @@
+.header {
+  margin-top: .5rem;
+  padding-left: 10px;
+  flex-direction: column;
+}
+
+.header ul li {
+  list-style: none;
+  margin: 0;
+  padding: .5rem 1rem;
+  border-radius: 3px;
+}
+
+.top {
+  justify-content: space-between;
+}
+
+.bottom {
+  justify-content: center;
+flex-wrap: wrap;
+}
+
+.pagination {
+  flex-wrap: wrap;
+}
