@@ -11,14 +11,12 @@ export default class BirdDetails extends Component {
 
 	render() {
 		const { birdId, round } = this.props;
-		console.log(round);
 
 		if (!birdId) {
 			return <span>Послушате плеер. Выберите птицу из списка.</span>
 		}
 
 		const bird = birdsService.getBirdsForRound(round);
-		console.log(bird);
 		const { name, species, description, image, audio } = bird[birdId - 1];
 
 		return (
@@ -28,7 +26,7 @@ export default class BirdDetails extends Component {
 						<img className="bird-image"
 							src={image}
 							alt={name} />
-						<ul lcassName="list-group list-group-flush">
+						<ul className="list-group list-group-flush">
 							<li className="list-group-item">
 								<h4>{name}</h4>
 							</li>
@@ -36,7 +34,7 @@ export default class BirdDetails extends Component {
 								<span>{species}</span>
 							</li>
 							<li className="list-group-item">
-								<div>audio player</div>
+								<audio controls src={audio}></audio>
 							</li>
 						</ul>
 					</div>

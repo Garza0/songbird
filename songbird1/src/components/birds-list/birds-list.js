@@ -10,13 +10,12 @@ export default class BirdsList extends Component {
 		super(props);
 	}
 
-	state = {
-		itemList: birdsService.getBirdsForRound(0)
-	};
+
 
 
 	onItemSelected = (selectedId) => {
 		this.props.onBirdSelected(selectedId);
+
 	}
 
 
@@ -35,9 +34,10 @@ export default class BirdsList extends Component {
 
 
 	render() {
-		const { itemList } = this.state;
 
-		const items = this.renderItems(itemList);
+		const birdsList = birdsService.getBirdsForRound(this.props.round)
+
+		const items = this.renderItems(birdsList);
 
 		return (
 			<div className="col-md-6">

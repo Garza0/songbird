@@ -6,6 +6,9 @@ import Header from '../header';
 import RandomBird from '../random-bird';
 import BirdDetails from '../bird-details';
 import NextLevelBtn from '../next-level-btn';
+import BirdsService from '../../services/birds-service';
+
+const birdsService = new BirdsService();
 
 
 export default class App extends Component {
@@ -15,7 +18,21 @@ export default class App extends Component {
     selectedBird: null,
     round: 0,
     answerIsRight: false,
-    loadNextRound: true
+    loadNextRound: true,
+    nextLevelBtnStatus: false,
+    pointsForAnswer: 5,
+    score: 0
+  }
+
+  getRandomBird = (round) => {
+    const birdsData = birdsService.getBirdsForRound(round);
+    const randomId = Math.floor(Math.random() * birdsData.length);
+    const bird = birdsData[randomId];
+    this.setState({
+      randomBird: bird,
+      loadNextRound: false
+    })
+    return bird
   }
 
   handleBirdSelection = (id) => {
@@ -27,24 +44,41 @@ export default class App extends Component {
 
   checkAnswer = (randomBirdId, selectedId) => {
     if (randomBirdId === selectedId) {
-      console.log('right answer');
+      const score = this.state.score + this.state.pointsForAnswer;
       this.setState({
-        answerIsRight: true
+        answerIsRight: true,
+        nextLevelBtnStatus: true,
+        score: score
       })
     } else {
-      console.log('wrong answer');
+      const pointsForAnswer = this.state.pointsForAnswer - 1;
+      this.setState({
+        pointsForAnswer: pointsForAnswer > 0 ? pointsForAnswer : 0
+      })
     }
   }
 
+  handleBtnClick = () => {
+    const round = this.state.round + 1;
+    this.setState({
+      round: round,
+      nextLevelBtnStatus: false,
+      answerIsRight: false,
+      pointsForAnswer: 5,
+      selectedBird: null
+    })
+    this.getRandomBird(round)
+  }
+
   render() {
-    const { selectedBird, round, answerIsRight, loadNextRound } = this.state;
+    const { score, selectedBird, round, answerIsRight, loadNextRound, randomBird, nextLevelBtnStatus } = this.state;
+    const bird = loadNextRound ? this.getRandomBird(round) : randomBird;
     return (
       <div className="songbird-app">
-        <Header />
+        <Header score={score} />
         <RandomBird
-          round={round}
-          answerIsRight={answerIsRight}
-          loadNextRound={loadNextRound}
+          bird={bird}
+          answered={answerIsRight}
         />
         <div className="row mb2">
           <BirdsList
@@ -54,7 +88,9 @@ export default class App extends Component {
             birdId={selectedBird}
             round={round} />
         </div>
-        <NextLevelBtn />
+        <NextLevelBtn
+          active={nextLevelBtnStatus}
+          handleClick={this.handleBtnClick} />
       </div>
     );
   }
