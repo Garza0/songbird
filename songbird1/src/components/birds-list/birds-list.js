@@ -6,17 +6,26 @@ const birdsService = new BirdsService();
 
 export default class BirdsList extends Component {
 
+	constructor(props) {
+		super(props);
+	}
+
 	state = {
 		itemList: birdsService.getBirdsForRound(0)
 	};
 
+
+	onItemSelected = (selectedId) => {
+		this.props.onBirdSelected(selectedId);
+	}
 
 
 	renderItems(arr) {
 		return arr.map(({ id, name }) => {
 			return (
 				<li className="list-group-item"
-					key={id}>
+					key={id}
+					onClick={() => this.onItemSelected(id)}>
 					{name}
 				</li>
 			);

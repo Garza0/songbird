@@ -6,5 +6,4 @@ export default class BirdsService {
 		return birdsData[round];
 	};
 
-
 }
